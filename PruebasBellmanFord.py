@@ -5,67 +5,60 @@ Created on 16/11/2018
 '''
 from collections import defaultdict 
   
-#Class to represent a graph 
-class Graph: 
+class Grafo: 
   
     def __init__(self,vertices): 
-        self.V= vertices #No. of vertices 
-        self.graph = [] # default dictionary to store graph 
+        self.V= vertices 
+        self.grafo = []  
    
-    # function to add an edge to graph 
-    def addEdge(self,u,v,w): 
-        self.graph.append([u, v, w]) 
+    
+    def agregarEdge(self,u,v,w): 
+        self.grafo.append([u, v, w]) 
           
-    # utility function used to print the solution 
-    def printArr(self, dist): 
-        print("Vertex   Distance from Source") 
+    
+    def imprimir(self, distancia): 
+        print("Vertice    Distancia desde el origen") 
         for i in range(self.V): 
-            print("%d \t\t %d" % (i, dist[i])) 
+            print("%d \t\t %d" % (i, distancia[i])) 
       
-    # The main function that finds shortest distances from src to 
-    # all other vertices using Bellman-Ford algorithm.  The function 
-    # also detects negative weight cycle 
+    
     def BellmanFord(self, src): 
+        distancia = [float("Inf")] * self.V 
+        distancia[src] = 0 
   
-        # Step 1: Initialize distances from src to all other vertices 
-        # as INFINITE 
-        dist = [float("Inf")] * self.V 
-        dist[src] = 0 
-  
-  
-        # Step 2: Relax all edges |V| - 1 times. A simple shortest  
-        # path from src to any other vertex can have at-most |V| - 1  
-        # edges 
         for i in range(self.V - 1): 
-            # Update dist value and parent index of the adjacent vertices of 
-            # the picked vertex. Consider only those vertices which are still in 
-            # queue 
-            for u, v, w in self.graph: 
-                if dist[u] != float("Inf") and dist[u] + w < dist[v]: 
-                        dist[v] = dist[u] + w 
+            for u, v, w in self.grafo: 
+                if distancia[u] != float("Inf") and distancia[u] + w < distancia[v]: 
+                        distancia[v] = distancia[u] + w 
   
-        # Step 3: check for negative-weight cycles.  The above step  
-        # guarantees shortest distances if graph doesn't contain  
-        # negative weight cycle.  If we get a shorter path, then there 
-        # is a cycle. 
   
-        for u, v, w in self.graph: 
-                if dist[u] != float("Inf") and dist[u] + w < dist[v]: 
-                        print "Graph contains negative weight cycle"
+        for u, v, w in self.grafo: 
+                if distancia[u] != float("Inf") and distancia[u] + w < distancia[v]: 
+                        print "El grafo contiene algun peso negativo"
                         return
                           
-        # print all distance 
-        self.printArr(dist) 
+        self.imprimir(distancia) 
   
-g = Graph(5) 
-g.addEdge(0, 1, -1) 
-g.addEdge(0, 2, 4) 
-g.addEdge(1, 2, 3) 
-g.addEdge(1, 3, 2) 
-g.addEdge(1, 4, 2) 
-g.addEdge(3, 2, 5) 
-g.addEdge(3, 1, 1) 
-g.addEdge(4, 3, -3) 
+g = Grafo(5) 
+print "Se creara un grafo de 0-4"
+a1=int(raw_input("Distancia de 0-1"))
+a2=int(raw_input("Distancia de 0-2"))    
+a3=int(raw_input("Distancia de 1-2"))  
+a4=int(raw_input("Distancia de 1-3"))  
+a5=int(raw_input("Distancia de 1-4"))  
+a6=int(raw_input("Distancia de 3-2"))  
+a7=int(raw_input("Distancia de 3-1"))
+a8=int(raw_input("Distancia de 4-3"))    
+
+g.agregarEdge(0, 1, a1) 
+g.agregarEdge(0, 2, a2) 
+g.agregarEdge(1, 2, a3) 
+g.agregarEdge(1, 3, a4) 
+g.agregarEdge(1, 4, a5) 
+g.agregarEdge(3, 2, a6) 
+g.agregarEdge(3, 1, a7) 
+g.agregarEdge(4, 3, a8) 
+
+print "-------------Camino mas corto desde el origen---------------"
   
-#Print the solution 
 g.BellmanFord(0) 
