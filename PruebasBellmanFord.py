@@ -10,7 +10,7 @@ def bellmanFord(V,E):
 
     for i in range(V-1):
         for edge in E:
-            relax(edge[0],edge[1],edge[2],dist,prev)
+            cambio(edge[0],edge[1],edge[2],dist,prev)
 
     #revisa ciclos negativos       
     for e in E:
@@ -21,3 +21,8 @@ def bellmanFord(V,E):
             return 1
 
     return 0
+
+def cambio(u,v,w,dist,prev):
+    if dist[u]+w < dist[v]:
+        dist[v] = dist[u]+w
+        prev[v] = u
